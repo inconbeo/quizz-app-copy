@@ -1,0 +1,11 @@
+.js-container {
+   width: 600px;
+   margin: 0 auto;
+   border-radius: 10px;
+   border: solid silver 1px;
+   padding: 20px;
+}
+
+.centered {
+    text-align: center;
+}

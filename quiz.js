@@ -36,7 +36,6 @@ const quizQuestions = [
 const STORE = {
   view: 'intro',
   questions: [{}, {}, {}, {}, {}],
-  choice: null,
   currentQuestion: null,
   correctResponses: null,
 };
@@ -55,9 +54,7 @@ function selectRandomQuestions() {
 
   shuffle(randomQuestions);
 
-  randomQuestions = randomQuestions.splice(0, 5);
-
-  console.log(randomQuestions);
+  return randomQuestions.splice(0, 5);
 }
 
 function render() {
@@ -67,10 +64,10 @@ function render() {
     renderIntro();
   }
 
-  else if (STORE.view === 'questions') {
-    console.log('questions');
-    renderQuestions();
-  }
+  // else if (STORE.view === 'questions') {
+  //   console.log('questions');
+  //   renderQuestions();
+  // }
 
   else if (STORE.view === 'results') {
     console.log('results');
@@ -87,37 +84,60 @@ function renderIntro() {
   <button class="start-quiz" id="start-quiz">START</button>`);
   $('.js-container').on('click', '.start-quiz', function() {
     STORE.view = 'questions';
-    render();
+    renderQuestions();
   });
 }
 
 function renderQuestions() {
   $('.js-container').children().remove();
   
-  let choice = selectRandomQuestions();
-  
-  $('.js-container').html(`<label class='answer'>
-  <input type="radio" name="choice" required>
-  <span></span>
-</label>
-<br>
+  let thisQuestions = selectRandomQuestions();
 
-<label class='answer'>
-  <input type="radio" name="choice" required>
-  <span></span>
-</label>
-<br>
+  renderNthQuestion(thisQuestions);
+}
 
-<label class='answer'>
-  <input type="radio" name="choice" required>
-  <span></span>
-</label>
-<br>
+function renderNthQuestion(someArr) {
+  console.log('Rendering Nth Question');
 
-<label class='answer'>
-  <input type="radio" name="choice" required>
-  <span></span>
-</label>`);
+  STORE.currentQuestion = 1;
+
+  for (let i = 0; i < someArr.length; i++) {
+    STORE.questions[i] = quizQuestions[someArr[i]];
+  }
+
+  console.log(STORE.questions);
+
+  for (let i = 0; i < STORE.questions.length; i++) {
+    console.log(i);
+    $('.js-container').html(`<form><label class='answer'>
+    <p><span>${STORE.questions[i].question}</p>
+    <input type="radio" name="choice" required>
+    <span value="0">${STORE.questions[i].answers[0]}</span>
+  </label>
+  <br>
+
+  <label class='answer'>
+    <input type="radio" name="choice" required>
+    <span value="1">${STORE.questions[i].answers[1]}</span>
+  </label>
+  <br>
+
+  <label class='answer'>
+    <input type="radio" name="choice" required>
+    <span value="2">${STORE.questions[i].answers[2]}</span>
+  </label>
+  <br>
+
+  <label class='answer'>
+    <input type="radio" name="choice" required>
+    <span value="3">${STORE.questions[i].answers[3]}</span>
+  </label>
+  <br>
+
+  <button type="submit" id="submit" class="js-question-submit">Submit</button>`);}
+
+  $('.js-container').on('click', '.js-question-submit', function() {});
+    console.log($('form input[type=radio]:checked').val());
 }
 
 function renderQuestionsFeedback() {}
