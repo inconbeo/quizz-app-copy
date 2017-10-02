@@ -63,6 +63,7 @@ function selectRandomQuestions() {
 function render() {
   if (STORE.view === 'intro') {
     console.log('Intro');
+    
     renderIntro();
   }
 
@@ -77,9 +78,47 @@ function render() {
   }
 }
 
-function renderIntro() {}
+function renderIntro() {
+  $('.js-container').html(`<h1>Space Quiz!</h1>
+  <p class="intro">Hey, there! Ready to see how much you know about our solar system and beyond? Go ahead and 
+    click the button to get started. You'll have to answer five multiple choice questions, 
+    without skipping the tough ones. When you're finished, click the button to move on and see if 
+    you got it right. At the end, we'll tell you how well you did.<br><br>Have fun!</p>
+  <button class="start-quiz" id="start-quiz">START</button>`);
+  $('.js-container').on('click', '.start-quiz', function() {
+    STORE.view = 'questions';
+    render();
+  });
+}
 
-function renderQuestions() {}
+function renderQuestions() {
+  $('.js-container').children().remove();
+  
+  let choice = selectRandomQuestions();
+  
+  $('.js-container').html(`<label class='answer'>
+  <input type="radio" name="choice" required>
+  <span></span>
+</label>
+<br>
+
+<label class='answer'>
+  <input type="radio" name="choice" required>
+  <span></span>
+</label>
+<br>
+
+<label class='answer'>
+  <input type="radio" name="choice" required>
+  <span></span>
+</label>
+<br>
+
+<label class='answer'>
+  <input type="radio" name="choice" required>
+  <span></span>
+</label>`);
+}
 
 function renderQuestionsFeedback() {}
 
