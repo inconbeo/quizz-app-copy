@@ -1,5 +1,3 @@
-'use strict';
-
 const quizQuestions = [ 
   {question: 'How many planets are there in our solar system?',
     answer: 'eight',
@@ -62,45 +60,3 @@ const quizQuestions = [
     c: 'a year',
     d: '350 years'},
 ];
-
-const STORE = {
-  view: 'intro',
-  questions: [{}, {}, {}, {}, {}],
-  choice: null,
-  currentQuestion: null,
-  correctResponses: null,
-};
-
-function render() {
-  if (STORE.view === 'intro') {
-    console.log('Intro');
-    renderIntro();
-  }
-
-  else if (STORE.view === 'questions') {
-    console.log('questions');
-    renderQuestions();
-  }
-
-  else if (STORE.view === 'results') {
-    console.log('results');
-    renderResults();
-  }
-}
-
-function renderIntro() {}
-
-function renderQuestions() {}
-
-function renderQuestionsFeedback() {}
-
-function renderResults() {}
-
-function resetQuiz() {}
-
-function main() { 
-  render();
-
-}
-
-$(main);
