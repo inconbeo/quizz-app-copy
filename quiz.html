@@ -7,9 +7,61 @@
     <title>Space Quiz</title>
 </head>
 <body>
+
+<header role="banner">
+        <h1>SPACE QUIZZ</h1>
+</header>
+
+<main role="main">
+
     <div class='js-container'>
-        
+        <section class="begin-section">
+            <button id="start-quizz">START</button>
+        </section>
+
+        <section class="quizz-section hidden">
+            <h3 class="js-queston-text"></h3>
+
+            <form id="question-form">
+
+                <label class="answer">
+                    <input type="radio" name="choice" required>
+                    <span></span>
+                </label>
+
+                <label class="answer">
+                        <input type="radio" name="choice" required>
+                        <span></span>
+                </label>
+
+                <label class="answer">
+                        <input type="radio" name="choice" required>
+                        <span></span>
+                </label>
+
+                <label class="answer">
+                        <input type="radio" name="choice" required>
+                        <span></span>
+                </label>
+
+                <button type="submit" id="submit" message="feedback-text">Submit Answer</button>
+            </form>
+        </section>
+
+        <section class="feedback" message="feedback-text">
+                <h2 class="feedback-text"></h2>
+                <img src="" alt="">
+                <a id="exit-feedback-window" class="exit-feedback-window" message="feedback-text" href="#">EXIT</a>
+        </section>
+
+        <section class="js-final-result"></section>
+
+        <section class="restart-quizz">
+                <button class="restart hidden">Start Over</button>
+        </section>
     </div>
+
+</main>  
 </body>
     <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="quiz.js"></script>
