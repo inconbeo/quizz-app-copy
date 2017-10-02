@@ -2,65 +2,35 @@
 
 const quizQuestions = [ 
   {question: 'How many planets are there in our solar system?',
-    answer: 'eight',
-    a: 'eight',
-    b: 'nine',
-    c: 'thirteen',
-    d: 'six'},
+    correct: 0,
+    answers: ['eight', 'nine', 'thirteen', 'six']},
   {question: 'Of the four inner planets, which is biggest?',
-    answer: 'Earth',
-    a: 'Mars',
-    b: 'Saturn',
-    c: 'Venus',
-    d: 'Earth'},
+    correct: 3,
+    answers: ['Mars', 'Saturn', 'Venus', 'Earth']},
   {question: 'Which planet in our solar system has rings?',
-    answer: 'all of the above',
-    a: 'Jupiter',
-    b: 'Saturn',
-    c: 'Uranus',
-    d: 'all of the above'},
+    corect: 3,
+    answers: ['Jupiter', 'Saturn', 'Uranus', 'all of the above']},
   {question: 'What was the first planet to be discovered with a telescope?',
-    answer: 'Uranus',
-    a: 'Uranus',
-    b: 'Saturn',
-    c: 'Mercury',
-    d: 'Neptune'},
+    correct: 0,
+    answers: ['Uranus', 'Saturn', 'Mercury', 'Neptune']},
   {question: 'How many exoplanets (planets orbiting stars other than our Sun) have we discovered?',
-    answer: '3600',
-    a: '3600',
-    b: '4200',
-    c: '58',
-    d: 'none'},
+    correct: 0,
+    answers: ['3600', '4200', '58', 'none']},
   {question: 'Which planet was discovered through mathematical calculations rather than with a telescope?',
-    answer: 'Neptune',
-    a: 'Europa',
-    b: 'Pluto',
-    c: 'Neptune',
-    d: 'Mercury'},
+    correct: 2,
+    answers: ['Europa', 'Pluto', 'Neptune', 'Mercury']},
   {question: 'Which of the four Galilean moons is most likely to harbor life in its subsurface oceans?',
-    answer: 'Europa',
-    a: 'Io',
-    b: 'Europa',
-    c: 'Ganimede',
-    d: 'Callisto'},
+    correct: 1,
+    answers: ['Io', 'Europa', 'Ganimede', 'Callisto']},
   {question: 'Which of the four Galilean moons is the biggest?',
-    answer: 'Ganimede',
-    a: 'Io',
-    b: 'Europa',
-    c: 'Ganimede',
-    d: 'Callisto'},
+    correct: 2,
+    answers: ['Io', 'Europa', 'Ganimede', 'Callisto']},
   {question: 'On which planet is the solar system\'s largest volcano, Olympus Mons, located?',
-    answer: 'Mars',
-    a: 'Mars',
-    b: 'Venus',
-    c: 'Jupiter',
-    d: 'Earth'},
+    correct: 0,
+    answers: ['Mars', 'Venus', 'Jupiter', 'Earth']},
   {question: 'Jupiter\'s Great Red Spot is a gigantic hurricane bigger than Earth. How long has it been raging?',
-    answer: '350 years',
-    a: '3 months',
-    b: '18 months',
-    c: 'a year',
-    d: '350 years'},
+    correct: 3,
+    answers: ['3 months', '18 months', 'a year', '350 years']},
 ];
 
 const STORE = {
@@ -70,6 +40,25 @@ const STORE = {
   currentQuestion: null,
   correctResponses: null,
 };
+
+function shuffle(arr) {
+  for (let i = arr.length; i; i--) {
+    let j = Math.floor(Math.random() * i);
+    [arr[i - 1], arr[j]] = [arr[j], arr[i - 1]];
+  }
+
+  return arr;
+}
+
+function selectRandomQuestions() {
+  let randomQuestions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  shuffle(randomQuestions);
+
+  randomQuestions = randomQuestions.splice(0, 5);
+
+  console.log(randomQuestions);
+}
 
 function render() {
   if (STORE.view === 'intro') {
