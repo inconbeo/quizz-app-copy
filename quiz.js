@@ -8,7 +8,7 @@ const quizQuestions = [
     correct: 3,
     answers: ['Mars', 'Saturn', 'Venus', 'Earth']},
   {question: 'Which planet in our solar system has rings?',
-    corect: 3,
+    correct: 3,
     answers: ['Jupiter', 'Saturn', 'Uranus', 'all of the above']},
   {question: 'What was the first planet to be discovered with a telescope?',
     correct: 0,
@@ -54,7 +54,15 @@ function selectRandomQuestions() {
 
   shuffle(randomQuestions);
 
-  return randomQuestions.splice(0, 5);
+  let questionArr =randomQuestions.splice(0, 5);
+
+  for (let i = 0; i < questionArr.length; i++) {
+    STORE.questions[i] = (quizQuestions[questionArr[i]]);
+  }
+
+  STORE.view = 'questions';
+
+  render();
 }
 
 function render() {
@@ -84,21 +92,12 @@ function renderIntro() {
   <button class="start-quiz" id="start-quiz">START</button>`);
   $('.js-container').on('click', '.start-quiz', function() {
     STORE.view = 'questions';
-    renderQuestions();
+    selectRandomQuestions();
   });
 }
 
 function renderQuestions() {
   $('.js-container').children().remove();
-  
-  let thisQuestions = selectRandomQuestions();
-  console.log(thisQuestions);
-
-  for (let i = 0; i < thisQuestions.length; i++) {
-    
-    STORE.questions[i] = (quizQuestions[thisQuestions[i]]);
-    
-  }
 
   console.log(STORE.questions);
 
