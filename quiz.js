@@ -85,6 +85,7 @@ function renderIntro() {
   $('.js-container').on('click', '.start-quiz', function() {
     STORE.view = 'questions';
     renderQuestions();
+    
   });
 }
 
@@ -95,9 +96,7 @@ function renderQuestions() {
   console.log(thisQuestions);
 
   for (let i = 0; i < thisQuestions.length; i++) {
-    
     STORE.questions[i] = (quizQuestions[thisQuestions[i]]);
-    
   }
 
   console.log(STORE.questions);
@@ -145,6 +144,7 @@ function handeleSubmit() {
 }
 
 function checkAnswer(choice) {
+
   let correctAnswerObject = STORE.questions[STORE.currentQuestion];
   console.log(correctAnswerObject);
   let correctAnswer = correctAnswerObject.correct;
@@ -157,9 +157,9 @@ function checkAnswer(choice) {
     STORE.currentQuestion++;
     $('.popup-hidden').toggleClass('popup-hidden');
     feedback.find('h2').text('Correct!');
-    feedback.find('img').attr('src','https://media.giphy.com/media/sgfauo9CqBcAw/giphy.gif');
+    feedback.find('img').attr('src','./https://media.giphy.com/media/sgfauo9CqBcAw/giphy.gif');
     
-  } else if (choice === undefined) {
+  } else if ($('input[name=choice]:checked').length === 0) {
     
     $('.popup-hidden').toggleClass('popup-hidden');
     feedback.find('h2').text('MAKE A DECISION');
@@ -179,6 +179,21 @@ function checkAnswer(choice) {
   } else {
     renderQuestions();
   }
+}
+
+function handleAnswerFeedback() {
+  //OPEN MODAL
+  $('#submit-answer').on('click', function (e) {
+    var targetPopupClass = $(this).attr('data-popup-open');
+    $('[data-popup="' + targetPopupClass + '"]').fadeIn(250);
+    e.preventDefault();
+  });
+  //CLOSE MODAL
+  $('#close-feedback-modal').on('click', function (e) {
+    var targetPopupClass = $(this).attr('data-popup-close');
+    $('[data-popup="' + targetPopupClass + '"]').fadeOut(250);
+    e.preventDefault();
+  });
 }
 
      
@@ -206,6 +221,7 @@ function main() {
   render();
   handeleSubmit();
   handleResetQuiz();
+  handleAnswerFeedback();
   
 }
 
