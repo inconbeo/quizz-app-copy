@@ -9,3 +9,7 @@
 .centered {
     text-align: center;
 }
+
+.popup-hidden {
+    display:none;
+}

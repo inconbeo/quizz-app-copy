@@ -36,8 +36,8 @@ const quizQuestions = [
 const STORE = {
   view: 'intro',
   questions: [{}, {}, {}, {}, {}],
-  currentQuestion: null,
-  correctResponses: null,
+  currentQuestion: 0,
+  correctResponses: 0,
 };
 
 function shuffle(arr) {
@@ -64,10 +64,10 @@ function render() {
     renderIntro();
   }
 
-  // else if (STORE.view === 'questions') {
-  //   console.log('questions');
-  //   renderQuestions();
-  // }
+  else if (STORE.view === 'questions') {
+    console.log('questions');
+    renderQuestions();
+  }
 
   else if (STORE.view === 'results') {
     console.log('results');
@@ -92,63 +92,121 @@ function renderQuestions() {
   $('.js-container').children().remove();
   
   let thisQuestions = selectRandomQuestions();
+  console.log(thisQuestions);
 
-  renderNthQuestion(thisQuestions);
-}
-
-function renderNthQuestion(someArr) {
-  console.log('Rendering Nth Question');
-
-  STORE.currentQuestion = 1;
-
-  for (let i = 0; i < someArr.length; i++) {
-    STORE.questions[i] = quizQuestions[someArr[i]];
+  for (let i = 0; i < thisQuestions.length; i++) {
+    
+    STORE.questions[i] = (quizQuestions[thisQuestions[i]]);
+    
   }
 
   console.log(STORE.questions);
 
-  for (let i = 0; i < STORE.questions.length; i++) {
-    console.log(i);
-    $('.js-container').html(`<form><label class='answer'>
-    <p><span>${STORE.questions[i].question}</p>
-    <input type="radio" name="choice" required>
-    <span value="0">${STORE.questions[i].answers[0]}</span>
-  </label>
+  $('.js-container').html(`
+    <p>${STORE.currentQuestion+1.+')'} ${STORE.questions[STORE.currentQuestion].question}</p>
+    <label class='answer'>
+    <input val="0" type="radio" name="choice" required>
+    <span>${STORE.questions[STORE.currentQuestion].answers[0]}</span>
+    </label>
   <br>
-
-  <label class='answer'>
-    <input type="radio" name="choice" required>
-    <span value="1">${STORE.questions[i].answers[1]}</span>
-  </label>
-  <br>
-
-  <label class='answer'>
-    <input type="radio" name="choice" required>
-    <span value="2">${STORE.questions[i].answers[2]}</span>
-  </label>
-  <br>
-
-  <label class='answer'>
-    <input type="radio" name="choice" required>
-    <span value="3">${STORE.questions[i].answers[3]}</span>
-  </label>
-  <br>
-
-  <button type="submit" id="submit" class="js-question-submit">Submit</button>`);}
-
-  $('.js-container').on('click', '.js-question-submit', function() {});
-    console.log($('form input[type=radio]:checked').val());
+  
+    <label class='answer'>
+      <input val="1" type="radio" name="choice" required>
+      <span>${STORE.questions[STORE.currentQuestion].answers[1]}</span>
+    </label>
+    <br>
+  
+    <label class='answer'>
+      <input val="2" type="radio" name="choice" required>
+      <span>${STORE.questions[STORE.currentQuestion].answers[2]}</span>
+    </label>
+    <br>
+  
+    <label class='answer'>
+      <input val="3" type="radio" name="choice" required>
+      <span>${STORE.questions[STORE.currentQuestion].answers[3]}</span>
+    </label>
+    <br>
+      
+    <button type="submit" id="submit" class="js-question-submit" data-popup-open="popup-feedback">Submit</button>`);
+    
+  
 }
 
-function renderQuestionsFeedback() {}
+function handeleSubmit() {
+  $('.js-container').on('click', '.js-question-submit', function(event) {
+    const userChoice = parseInt($('input[name=choice]:checked').attr('val'));
+    console.log(userChoice);
+    console.log(typeof(userChoice));
+    //Call this fucntion to check if the result is correct, THIS IS WHERE WE LEFT OFF YESTERDAY
+    checkAnswer(userChoice);
+  });
+  
+}
 
-function renderResults() {}
+function checkAnswer(choice) {
+  let correctAnswerObject = STORE.questions[STORE.currentQuestion];
+  console.log(correctAnswerObject);
+  let correctAnswer = correctAnswerObject.correct;
+  console.log(correctAnswer);
+  let feedback = $('.popup-hidden');
 
-function resetQuiz() {}
+  if (choice === correctAnswer) {
+
+    STORE.correctResponses++;
+    STORE.currentQuestion++;
+    $('.popup-hidden').toggleClass('popup-hidden');
+    feedback.find('h2').text('Correct!');
+    feedback.find('img').attr('src','https://media.giphy.com/media/sgfauo9CqBcAw/giphy.gif');
+    
+  } else if (choice === undefined) {
+    
+    $('.popup-hidden').toggleClass('popup-hidden');
+    feedback.find('h2').text('MAKE A DECISION');
+    feedback.find('img').attr('src', './assets/VvN5pKhTsd6Ok.gif');
+
+  } else if (choice !== correctAnswer) {
+    
+    STORE.currentQuestion++; 
+    $('.popup-hidden').toggleClass('popup-hidden');
+    feedback.find('h2').text('Sorry, that wasn\'t correct.');
+    feedback.find('img').attr('src', 'https://media.giphy.com/media/sgfauo9CqBcAw/giphy.gif');
+  }
+  
+  if (STORE.currentQuestion === STORE.questions.length) {
+    STORE.view === 'results';
+    renderResults();
+  } else {
+    renderQuestions();
+  }
+}
+
+     
+function renderResults() {
+  $('.js-container').children().remove();
+  $('.js-container').html(`<h2 class="result">Your score: ${STORE.correctResponses} out of ${STORE.questions.length} right</h2>
+  <button class="start-over" id="start-over">Start Quizz Over</button>`);
+   
+}
+
+function resetQuiz() {
+  STORE.currentQuestion = 0;
+  STORE.correctResponses = 0;
+  STORE.view = 'intro';
+  renderIntro();
+}
+
+function handleResetQuiz() {
+  $('.js-container').on('click', '.start-over', function(event) {
+    resetQuiz();
+  });
+}
 
 function main() { 
   render();
-
+  handeleSubmit();
+  handleResetQuiz();
+  
 }
 
 $(main);
