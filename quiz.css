@@ -13,6 +13,10 @@ body {
     padding: 20px;
 }
 
+.hide {
+    display: none;
+}
+
 h1 {
     font-family: 'Days One';
 }

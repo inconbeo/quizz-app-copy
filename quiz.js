@@ -168,13 +168,13 @@ function checkAnswer(choice) {
     STORE.currentQuestion++;
     $('.popup-hidden').removeClass('hide');
     feedback.find('h2').text('Correct!');
-    feedback.find('img').attr('src','./https://media.giphy.com/media/3otPoumTG9VHMQlIPu/giphy.gif');
+    feedback.find('img').attr('src','https://media.giphy.com/media/3otPoumTG9VHMQlIPu/giphy.gif');
     
   } else if ($('input[name=choice]:checked').length === 0) {
     
     $('.popup-hidden').removeClass('hide');
     feedback.find('h2').text('MAKE A DECISION');
-    feedback.find('img').attr('src', './https://media.giphy.com/media/OmAdpbVnAAWJO/giphy.gif');
+    feedback.find('img').attr('src', 'https://media.giphy.com/media/OmAdpbVnAAWJO/giphy.gif');
 
   } else if (choice !== correctAnswer) {
     
