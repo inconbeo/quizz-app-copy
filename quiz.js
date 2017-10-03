@@ -85,7 +85,7 @@ function render() {
 
 function renderIntro() {
   $('.js-container').html(`<h1>Space Quiz!</h1>
-  <p class="intro">Hey, there! <br><br>Ready to see how much you know about our solar system and beyond? <br><br>Go ahead and 
+  <p class="intro">Hey, there! Ready to see how much you know about our solar system and beyond? Go ahead and 
     click the button to get started. You'll have to answer five multiple choice questions, 
     without skipping the tough ones. When you're finished, click the button to move on and see if 
     you got it right. At the end, we'll tell you how well you did.<br><br>Have fun!</p>
@@ -160,30 +160,31 @@ function checkAnswer(choice) {
   console.log(correctAnswerObject);
   let correctAnswer = correctAnswerObject.correct;
   console.log(correctAnswer);
-  let feedback = $('.popup-hidden');
-
+  let feedback = $('.popup');
+  
   if (choice === correctAnswer) {
 
     STORE.correctResponses++;
     STORE.currentQuestion++;
-    $('.popup-hidden').removeClass('hide');
+    $('.popup').addClass('show');
     feedback.find('h2').text('Correct!');
-    feedback.find('img').attr('src','https://media.giphy.com/media/3otPoumTG9VHMQlIPu/giphy.gif');
+    feedback.find('img').attr('src','./https://media.giphy.com/media/3otPoumTG9VHMQlIPu/giphy.gif');
     
   } else if ($('input[name=choice]:checked').length === 0) {
     
-    $('.popup-hidden').removeClass('hide');
+    $('.popup').addClass('show');
     feedback.find('h2').text('MAKE A DECISION');
-    feedback.find('img').attr('src', 'https://media.giphy.com/media/OmAdpbVnAAWJO/giphy.gif');
-
+    feedback.find('img').attr('src', './https://media.giphy.com/media/OmAdpbVnAAWJO/giphy.gif');
+    
   } else if (choice !== correctAnswer) {
     
     STORE.currentQuestion++; 
-    $('.popup-hidden').removeClass('hide');
+    $('.popup').addClass('show');
     feedback.find('h2').text('Sorry, that wasn\'t correct.');
     feedback.find('img').attr('src', 'https://media.giphy.com/media/sgfauo9CqBcAw/giphy.gif');
+    
   }
-  toggleX();
+  
   
   if (STORE.currentQuestion === STORE.questions.length) {
     STORE.view === 'results';
@@ -195,16 +196,14 @@ function checkAnswer(choice) {
 
 function handleAnswerFeedback() {
   
-
   $('#submit-answer').on('click', function (e) {
     let targetPopupClass = $(this).attr('data-popup-open');
-    $('[data-popup="' + targetPopupClass + '"]').fadeIn(250);
     e.preventDefault();
   });
   
   $('#close-feedback-modal').on('click', function (e) {
     let targetPopupClass = $(this).attr('data-popup-close');
-    $('[data-popup="' + targetPopupClass + '"]').fadeOut(250);
+
 
     e.preventDefault();
   });
@@ -214,7 +213,7 @@ function handleAnswerFeedback() {
 function renderResults() {
   $('.js-container').children().remove();
   $('.js-container').html(`<h2 class="result">Your score: ${STORE.correctResponses} out of ${STORE.questions.length} right</h2>
-  <button class="start-over" id="start-over">Start Quiz Over</button>`);
+  <button class="start-over" id="start-over">Start Quizz Over</button>`);
    
 }
 
@@ -232,8 +231,9 @@ function handleResetQuiz() {
 }
 
 function toggleX() {
-  $('.x').on('click', function() {
-    $('.popup-hidden').addClass('hide');
+  $('#x').on('click', '.popup-close', function(event) {
+    console.log('toggleX ran');
+    $('.popup').removeClass('show')
   });
 }
 
@@ -242,7 +242,7 @@ function main() {
   handeleSubmit();
   handleResetQuiz();
   handleAnswerFeedback();
-  
+  toggleX();
 }
 
 $(main);
