@@ -8,7 +8,7 @@ const quizQuestions = [
     correct: 3,
     answers: ['Mars', 'Saturn', 'Venus', 'Earth']},
   {question: 'Which planet in our solar system has rings?',
-    corect: 3,
+    correct: 3,
     answers: ['Jupiter', 'Saturn', 'Uranus', 'all of the above']},
   {question: 'What was the first planet to be discovered with a telescope?',
     correct: 0,
@@ -54,7 +54,15 @@ function selectRandomQuestions() {
 
   shuffle(randomQuestions);
 
-  return randomQuestions.splice(0, 5);
+  let questionArr =randomQuestions.splice(0, 5);
+
+  for (let i = 0; i < questionArr.length; i++) {
+    STORE.questions[i] = (quizQuestions[questionArr[i]]);
+  }
+
+  STORE.view = 'questions';
+
+  render();
 }
 
 function render() {
@@ -84,20 +92,23 @@ function renderIntro() {
   <button class="start-quiz" id="start-quiz">START</button>`);
   $('.js-container').on('click', '.start-quiz', function() {
     STORE.view = 'questions';
-    renderQuestions();
     
+
+    selectRandomQuestions();
+
   });
 }
 
 function renderQuestions() {
   $('.js-container').children().remove();
   
-  let thisQuestions = selectRandomQuestions();
-  console.log(thisQuestions);
+  // let thisQuestions = selectRandomQuestions();
+  // console.log(thisQuestions);
 
-  for (let i = 0; i < thisQuestions.length; i++) {
-    STORE.questions[i] = (quizQuestions[thisQuestions[i]]);
-  }
+  // for (let i = 0; i < thisQuestions.length; i++) {
+  //   STORE.questions[i] = (quizQuestions[thisQuestions[i]]);
+  // }
+
 
   console.log(STORE.questions);
 
@@ -155,23 +166,24 @@ function checkAnswer(choice) {
 
     STORE.correctResponses++;
     STORE.currentQuestion++;
-    $('.popup-hidden').toggleClass('popup-hidden');
+    $('.popup-hidden').removeClass('hide');
     feedback.find('h2').text('Correct!');
-    feedback.find('img').attr('src','./https://media.giphy.com/media/sgfauo9CqBcAw/giphy.gif');
+    feedback.find('img').attr('src','./https://media.giphy.com/media/3otPoumTG9VHMQlIPu/giphy.gif');
     
   } else if ($('input[name=choice]:checked').length === 0) {
     
-    $('.popup-hidden').toggleClass('popup-hidden');
+    $('.popup-hidden').removeClass('hide');
     feedback.find('h2').text('MAKE A DECISION');
-    feedback.find('img').attr('src', './assets/VvN5pKhTsd6Ok.gif');
+    feedback.find('img').attr('src', './https://media.giphy.com/media/OmAdpbVnAAWJO/giphy.gif');
 
   } else if (choice !== correctAnswer) {
     
     STORE.currentQuestion++; 
-    $('.popup-hidden').toggleClass('popup-hidden');
+    $('.popup-hidden').removeClass('hide');
     feedback.find('h2').text('Sorry, that wasn\'t correct.');
     feedback.find('img').attr('src', 'https://media.giphy.com/media/sgfauo9CqBcAw/giphy.gif');
   }
+  toggleX();
   
   if (STORE.currentQuestion === STORE.questions.length) {
     STORE.view === 'results';
@@ -182,16 +194,18 @@ function checkAnswer(choice) {
 }
 
 function handleAnswerFeedback() {
-  //OPEN MODAL
+  
+
   $('#submit-answer').on('click', function (e) {
-    var targetPopupClass = $(this).attr('data-popup-open');
+    let targetPopupClass = $(this).attr('data-popup-open');
     $('[data-popup="' + targetPopupClass + '"]').fadeIn(250);
     e.preventDefault();
   });
-  //CLOSE MODAL
+  
   $('#close-feedback-modal').on('click', function (e) {
-    var targetPopupClass = $(this).attr('data-popup-close');
+    let targetPopupClass = $(this).attr('data-popup-close');
     $('[data-popup="' + targetPopupClass + '"]').fadeOut(250);
+
     e.preventDefault();
   });
 }
@@ -214,6 +228,12 @@ function resetQuiz() {
 function handleResetQuiz() {
   $('.js-container').on('click', '.start-over', function(event) {
     resetQuiz();
+  });
+}
+
+function toggleX() {
+  $('.x').on('click', function() {
+    $('.popup-hidden').addClass('hide');
   });
 }
 
