@@ -85,7 +85,7 @@ function render() {
 
 function renderIntro() {
   $('.js-container').html(`<h1>Space Quiz!</h1>
-  <p class="intro">Hey, there! Ready to see how much you know about our solar system and beyond? Go ahead and 
+  <p class="intro">Hey, there! <br><br>Ready to see how much you know about our solar system and beyond? <br><br>Go ahead and 
     click the button to get started. You'll have to answer five multiple choice questions, 
     without skipping the tough ones. When you're finished, click the button to move on and see if 
     you got it right. At the end, we'll tell you how well you did.<br><br>Have fun!</p>
@@ -214,7 +214,7 @@ function handleAnswerFeedback() {
 function renderResults() {
   $('.js-container').children().remove();
   $('.js-container').html(`<h2 class="result">Your score: ${STORE.correctResponses} out of ${STORE.questions.length} right</h2>
-  <button class="start-over" id="start-over">Start Quizz Over</button>`);
+  <button class="start-over" id="start-over">Start Quiz Over</button>`);
    
 }
 
